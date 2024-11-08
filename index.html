@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>寻宝游戏</title>
+</head>
+<body>
+    <div class="info-buttons">
+        <button id="player-info-button">玩家信息</button>
+        <button id="adventure-history-button">冒险历史</button>
+    </div>
+
+    <div id="player-info" class="info-section hidden">
+        <h2>玩家信息</h2>
+        <p>玩家ID: <span id="player-id"></span></p>
+        <p>玩家名称: <span id="player-name"></span></p>
+    </div>
+
+    <div id="adventure-history" class="info-section hidden">
+        <h2>冒险历史</h2>
+        <div id="game-history"></div>
+    </div>
+
+    <div class="container">
+        <h1>寻宝游戏</h1>
+        <p>通过解码线索和与神秘生物互动，找到隐藏的宝藏！</p>
+        <button id="start-button" aria-label="开始寻宝">开始寻宝</button>
+        <button id="adventure-note-button" aria-label="冒险笔记">冒险笔记</button>
+        
+        <div id="steps" style="display: none;">
+            <div id="step1" class="step">
+                <img id="image1" class="step-image" src="" alt="">
+                <div class="step-text"></div>
+            </div>
+            <div id="step2" class="step">
+                <img id="image2" class="step-image" src="" alt="">
+                <div class="step-text"></div>
+            </div>
+            <div id="step3" class="step">
+                <img id="image3" class="step-image" src="" alt="">
+                <div class="step-text"></div>
+            </div>
+            <div id="step4" class="step">
+                <img id="image4" class="step-image" src="" alt="">
+                <div class="step-text"></div>
+            </div>
+            <div id="step5" class="step">
+                <img id="image5" class="step-image" src="" alt="">
+                <div class="step-text"></div>
+            </div>
+        </div>
+        <div id="result" class="result" style="display: none;"></div>
+        <button id="restart-button" class="hidden" aria-label="重新寻宝">重新寻宝</button>
+        
+        <!-- 冒险笔记小框 -->
+        <div id="adventure-note-popup" class="popup hidden">
+            <div class="popup-content">
+                <span class="close-button" id="close-button">&times;</span>
+                <h2>冒险笔记</h2>
+                <div id="note-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 背景音乐 -->
+    <audio id="bg-music" src="background-music.mp3" loop></audio>
+    <div class="music-controls">
+        <button id="play-music-button">播放背景音乐</button>
+        <button id="stop-music-button">停止背景音乐</button>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
