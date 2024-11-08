@@ -42,7 +42,11 @@ button {
 
 button:hover {
     background-color: #0056b3;
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(-3px); /* 悬停时稍微上移 */
+}
+
+button:active {
+    transform: scale(0.98) translateY(2px); /* 点击时产生轻微的按压效果 */
 }
 
 /* 控制按钮上下排列 */
@@ -60,7 +64,25 @@ button:hover {
     margin: 20px auto;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.5s ease-in-out;
+    opacity: 0; /* 初始状态为完全透明 */
+    transform: scale(0.9); /* 初始状态为缩小 */
+    animation: fadeInScale 0.8s ease-in-out forwards; /* 动画效果 */
+}
+
+/* 过渡动画：图片渐入并放大 */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.05); /* 中间稍微放大 */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* 最终放大至正常大小 */
+    }
 }
 
 /* 背景音乐按钮 */
