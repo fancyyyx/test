@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 显示玩家信息
     document.getElementById('player-id').innerText = localStorage.getItem('playerID');
     document.getElementById('player-name').innerText = localStorage.getItem('playerName');
-    displayGameHistory();
+    updateAdventureHistory();
 
     // 折叠功能
     document.getElementById('player-info-button').addEventListener('click', () => {
@@ -22,8 +22,26 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleVisibility('adventure-history');
     });
 
+    // 清除历史记录按钮
+    document.getElementById('clear-history-button').addEventListener("click", () => {
+        localStorage.removeItem('gameHistory');
+        updateAdventureHistory(); // 更新历史显示
+    });
+
     // 冒险笔记按钮点击事件
     document.getElementById('adventure-note-button').addEventListener('click', toggleAdventureNote);
+
+    // 开始游戏按钮
+    document.getElementById("start-button").addEventListener("click", () => {
+        document.getElementById("steps").style.display = "block";
+        findTreasure();
+        document.getElementById("start-button").classList.add("hidden");
+    });
+
+    // 重新开始按钮
+    document.getElementById("restart-button").addEventListener("click", () => {
+        window.location.reload(); // 重新加载页面以重新开始游戏
+    });
 });
 
 function toggleVisibility(id) {
@@ -127,17 +145,35 @@ function saveGameHistory(stepDescription) {
     let gameHistory = JSON.parse(localStorage.getItem('gameHistory')) || [];
     gameHistory.push(stepDescription);
     localStorage.setItem('gameHistory', JSON.stringify(gameHistory));
-    displayGameHistory();
+    updateAdventureHistory();
 }
 
-function displayGameHistory() {
-    const historyElement = document.getElementById("game-history");
-    const gameHistory = JSON.parse(localStorage.getItem('gameHistory')) || [];
-    historyElement.innerHTML = gameHistory.map((entry, index) => `<p>${index + 1}. ${entry}</p>`).join('');
+function updateAdventureHistory() {
+    const gameHistory = getHistory();
+    const historyContainer = document.getElementById('game-history');
+    historyContainer.innerHTML = ''; // 清空历史记录
+
+    gameHistory.forEach((record, index) => {
+        const adventureEntry = document.createElement('div');
+        adventureEntry.innerHTML = `<strong>第 ${index + 1} 次冒险：</strong><br>${record}`;
+        historyContainer.appendChild(adventureEntry);
+    });
+
+    const clearHistoryButton = document.getElementById('clear-history-button');
+    if (gameHistory.length > 0) {
+        clearHistoryButton.classList.remove('hidden');
+    } else {
+        clearHistoryButton.classList.add('hidden');
+    }
+}
+
+function getHistory() {
+    let history = localStorage.getItem('gameHistory');
+    return history ? JSON.parse(history) : [];
 }
 
 async function findTreasure() {
-    let hasArtifacts = false; 
+    let hasArtifacts = false;
 
     try {
         let clue = await TreasureMap.getInitialClue();
@@ -205,15 +241,15 @@ function hideSteps() {
 }
 
 function displayStep(stepId, message, imageSrc) {
-    hideSteps(); // 先隐藏所有步骤
+    hideSteps();
     const stepElement = document.getElementById(stepId);
     const imgElement = stepElement.querySelector("img");
     const textElement = stepElement.querySelector(".step-text");
 
     imgElement.src = imageSrc;
     imgElement.alt = message;
-    imgElement.style.width = "600px"; // 设置图片宽度
-    imgElement.style.height = "auto"; // 设置图片高度自动调整
+    imgElement.style.width = "600px";
+    imgElement.style.height = "auto";
 
     textElement.innerText = message;
 
@@ -223,32 +259,3 @@ function displayStep(stepId, message, imageSrc) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-document.getElementById("start-button").addEventListener("click", () => {
-    document.getElementById("steps").style.display = "block";
-    findTreasure();
-    document.getElementById("start-button").classList.add("hidden");
-});
-
-document.getElementById("restart-button").addEventListener("click", () => {
-    localStorage.removeItem('gameHistory'); // 清除游戏历史
-    location.reload();
-});
-
-// 背景音乐播放控制
-const bgMusic = document.getElementById("bg-music");
-document.getElementById("play-music-button").addEventListener("click", () => {
-    bgMusic.play();
-});
-document.getElementById("stop-music-button").addEventListener("click", () => {
-    bgMusic.pause();
-    bgMusic.currentTime = 0;
-});
-
-// 冒险笔记
-document.getElementById("adventure-note-button").addEventListener("click", toggleAdventureNote);
-
-// 关闭冒险笔记小框
-document.getElementById("close-button").addEventListener("click", () => {
-    document.getElementById("adventure-note-popup").classList.add("hidden");
-});
