@@ -177,3 +177,18 @@ button:active {
 .hidden {
     display: none;
 }
+
+/* 清除历史记录按钮样式 */
+#clear-history-button {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: #FF3547;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+#clear-history-button:hover {
+    background-color: #FF4D77;
+}
