@@ -26,6 +26,10 @@
     <div class="container">
         <h1>寻宝游戏</h1>
         <p>通过解码线索和与神秘生物互动，找到隐藏的宝藏！</p>
+        
+        <!-- 将重新寻宝按钮放在冒险笔记上方 -->
+        <button id="restart-button" class="hidden" aria-label="重新寻宝">重新寻宝</button>
+
         <div class="button-container">
             <button id="start-button" aria-label="开始寻宝">开始寻宝</button>
             <button id="adventure-note-button" aria-label="冒险笔记">冒险笔记</button>
@@ -53,8 +57,8 @@
                 <div class="step-text"></div>
             </div>
         </div>
+        
         <div id="result" class="result" style="display: none;"></div>
-        <button id="restart-button" class="hidden" aria-label="重新寻宝">重新寻宝</button>
         
         <!-- 冒险笔记小框 -->
         <div id="adventure-note-popup" class="popup hidden">
