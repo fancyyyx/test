@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('adventure-history-button').addEventListener('click', () => {
         toggleVisibility('adventure-history');
     });
+
+    // 冒险笔记按钮点击事件
+    document.getElementById('adventure-note-button').addEventListener('click', toggleAdventureNote);
 });
 
 function toggleVisibility(id) {
@@ -29,6 +32,33 @@ function toggleVisibility(id) {
         element.classList.remove('hidden');
     } else {
         element.classList.add('hidden');
+    }
+}
+
+function toggleAdventureNote() {
+    const notePopup = document.getElementById("adventure-note-popup");
+    if (notePopup.classList.contains('hidden')) {
+        loadAdventureNote();
+        notePopup.classList.remove('hidden');
+    } else {
+        notePopup.classList.add('hidden');
+    }
+}
+
+async function loadAdventureNote() {
+    try {
+        console.log("开始加载冒险笔记...");
+        const response = await fetch('elements.txt');
+        if (!response.ok) {
+            throw new Error('网络响应错误：' + response.status);
+        }
+        const data = await response.text();
+        const formattedData = data.split('\n').map(line => `<p>${line.trim()}</p>`).join('');
+        document.getElementById("note-content").innerHTML = formattedData;
+        console.log("冒险笔记加载成功");
+    } catch (error) {
+        console.error('加载冒险笔记时出错:', error);
+        document.getElementById("note-content").textContent = '加载笔记时出错，请稍后重试。';
     }
 }
 
@@ -216,23 +246,7 @@ document.getElementById("stop-music-button").addEventListener("click", () => {
 });
 
 // 冒险笔记
-document.getElementById("adventure-note-button").addEventListener("click", async () => {
-    try {
-        console.log("开始加载冒险笔记...");
-        const response = await fetch('elements.txt');
-        if (!response.ok) {
-            throw new Error('网络响应错误：' + response.status);
-        }
-        const data = await response.text();
-        document.getElementById("note-content").textContent = data;
-        document.getElementById("adventure-note-popup").classList.remove("hidden");
-        console.log("冒险笔记加载成功");
-    } catch (error) {
-        console.error('加载冒险笔记时出错:', error);
-        document.getElementById("note-content").textContent = '加载笔记时出错，请稍后重试。';
-        document.getElementById("adventure-note-popup").classList.remove("hidden");
-    }
-});
+document.getElementById("adventure-note-button").addEventListener("click", toggleAdventureNote);
 
 // 关闭冒险笔记小框
 document.getElementById("close-button").addEventListener("click", () => {
