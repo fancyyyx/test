@@ -45,9 +45,17 @@ button:hover {
     transform: scale(1.05);
 }
 
+/* 控制按钮上下排列 */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .step-image {
-    width: 600px; /* 可以根据需要调整图片大小 */
-    height: auto;
+    width: 500px; /* 设置统一的图片宽度 */
+    height: 300px; /* 设置统一的图片高度 */
+    object-fit: cover; /* 裁剪图片以适应容器 */
     display: block;
     margin: 20px auto;
     border-radius: 8px;
